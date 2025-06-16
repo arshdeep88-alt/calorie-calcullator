@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Calorie Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+<div class="bg-gray-800 p-8 rounded-2xl shadow-xl w-full max-w-2xl">
+    <h1 class="text-3xl font-bold mb-6 text-center">Gym Calorie Calculator</h1>
+
+    <form id="calorieForm" class="grid grid-cols-1 gap-4">
+        <div class="flex gap-4">
+            <input type="number" step="0.1" id="weight" placeholder="Weight (kg)" class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600" required>
+            <input type="number" step="0.1" id="height" placeholder="Height (e.g., 5.8)" class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600" required>
+        </div>
+
+        <input type="number" id="age" placeholder="Age" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
+
+        <select id="gender" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <select id="activityLevel" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
+            <option value="">Select Activity Level</option>
+            <option value="sedentary">Sedentary</option>
+            <option value="lightly">Lightly Active</option>
+            <option value="moderately">Moderately Active</option>
+            <option value="very">Very Active</option>
+            <option value="super">Super Active</option>
+        </select>
+
+        <select id="goal" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
+            <option value="">Select Goal</option>
+            <option value="maintain">Maintain</option>
+            <option value="lose">Lose Weight</option>
+            <option value="gain">Gain Weight</option>
+        </select>
+
+        <select id="intensity" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
+            <option value="">Select Deficit Intensity</option>
+            <option value="low">Low</option>
+            <option value="moderate">Moderate</option>
+            <option value="high">High</option>
+        </select>
+
+        <button type="submit" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+            Calculate
+        </button>
+    </form>
+
+    <div id="result" class="mt-6 hidden">
+        <h2 class="text-xl font-semibold mb-2">Result:</h2>
+        <p><strong>Maintenance Calories:</strong> <span id="maintenance"></span></p>
+        <p><strong>Weight Loss Calories:</strong> <span id="loss"></span></p>
+        <p><strong>Weight Gain Calories:</strong> <span id="gain"></span></p>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('calorieForm');
+    const resultDiv = document.getElementById('result');
+    const maintenanceSpan = document.getElementById('maintenance');
+    const lossSpan = document.getElementById('loss');
+    const gainSpan = document.getElementById('gain');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const requestData = {
+        weightInKg: parseFloat(document.getElementById('weight').value),
+        heightInFeet: parseFloat(document.getElementById('height').value),
+        age: parseInt(document.getElementById('age').value),
+        gender: document.getElementById('gender').value,
+        activityLevel: document.getElementById('activityLevel').value,
+        goal: document.getElementById('goal').value,
+        intensity: document.getElementById('intensity').value
+      };
+
+      const response = await fetch('/calculate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        maintenanceSpan.textContent = data.maintenanceCalories + ' kcal';
+        lossSpan.textContent = data.weightLossCalories + ' kcal';
+        gainSpan.textContent = data.weightGainCalories + ' kcal';
+        resultDiv.classList.remove('hidden');
+      } else {
+        alert('Failed to calculate. Please try again.');
+      }
+    });
+</script>
+</body>
+</html>

@@ -19,13 +19,20 @@ public class CalorieCalculatorService {
         double maintenanceCalories = bmr * getActivityLevelMultiplier(request.getActivityLevel());
         double calorieDelta = getIntensityLevelDeficit(request.getIntensity());
 
-        CalorieResponse response = new CalorieResponse();
-        response.setMaintenanceCalories(round(maintenanceCalories, 2));
-        response.setWeightLossCalories(round(maintenanceCalories - calorieDelta, 2));
-        response.setWeightGainCalories(round(maintenanceCalories + calorieDelta, 2));
+        double resultCalories;
 
+        switch (request.getGoal().toLowerCase()) {
+            case "lose" -> resultCalories = maintenanceCalories - calorieDelta;
+            case "gain" -> resultCalories = maintenanceCalories + calorieDelta;
+            case "maintain" -> resultCalories = maintenanceCalories;
+            default -> resultCalories = maintenanceCalories;
+        }
+
+        CalorieResponse response = new CalorieResponse();
+        response.setCalories(round(resultCalories, 2));
         return response;
     }
+
 
     private double convertFeetToCm(double heightInFeet) {
         int feet = (int) heightInFeet;

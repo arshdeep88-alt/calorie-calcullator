@@ -1,100 +1,111 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Calorie Calculator</title>
+    <title>Gym Calorie Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
-<div class="bg-gray-800 p-8 rounded-2xl shadow-xl w-full max-w-2xl">
-    <h1 class="text-3xl font-bold mb-6 text-center">Gym Calorie Calculator</h1>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
+<div class="bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-xl">
+    <h1 class="text-3xl font-bold mb-6 text-center text-yellow-400">Gym Calorie Calculator</h1>
 
-    <form id="calorieForm" class="grid grid-cols-1 gap-4">
-        <div class="flex gap-4">
-            <input type="number" step="0.1" id="weight" placeholder="Weight (kg)" class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600" required>
-            <input type="number" step="0.1" id="height" placeholder="Height (e.g., 5.8)" class="w-1/2 p-2 rounded bg-gray-700 border border-gray-600" required>
+    <form id="calorieForm" class="space-y-4">
+        <!-- Row: Weight and Height -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block mb-1">Weight (kg):</label>
+                <input type="number" step="0.1" name="weightInKg" required
+                       class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+            </div>
+
+            <div>
+                <label class="block mb-1">Height (e.g., 5.8):</label>
+                <input type="number" step="0.1" name="heightInFeet" required
+                       class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+            </div>
         </div>
 
-        <input type="number" id="age" placeholder="Age" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
+        <div>
+            <label class="block mb-1">Age:</label>
+            <input type="number" name="age" required
+                   class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+        </div>
 
-        <select id="gender" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-        </select>
+        <div>
+            <label class="block mb-1">Gender:</label>
+            <select name="gender" required
+                    class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600">
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
 
-        <select id="activityLevel" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
-            <option value="">Select Activity Level</option>
-            <option value="sedentary">Sedentary</option>
-            <option value="lightly">Lightly Active</option>
-            <option value="moderately">Moderately Active</option>
-            <option value="very">Very Active</option>
-            <option value="super">Super Active</option>
-        </select>
+        <div>
+            <label class="block mb-1">Activity Level:</label>
+            <select name="activityLevel" required
+                    class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600">
+                <option value="sedentary">Sedentary</option>
+                <option value="lightly">Lightly Active</option>
+                <option value="moderately">Moderately Active</option>
+                <option value="very">Very Active</option>
+                <option value="super">Super Active</option>
+            </select>
+        </div>
 
-        <select id="goal" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
-            <option value="">Select Goal</option>
-            <option value="maintain">Maintain</option>
-            <option value="lose">Lose Weight</option>
-            <option value="gain">Gain Weight</option>
-        </select>
+        <div>
+            <label class="block mb-1">Goal:</label>
+            <select name="goal" required
+                    class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600">
+                <option value="maintain">Maintain</option>
+                <option value="lose">Lose</option>
+                <option value="gain">Gain</option>
+            </select>
+        </div>
 
-        <select id="intensity" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
-            <option value="">Select Deficit Intensity</option>
-            <option value="low">Low</option>
-            <option value="moderate">Moderate</option>
-            <option value="high">High</option>
-        </select>
+        <div>
+            <label class="block mb-1">Intensity:</label>
+            <select name="intensity" required
+                    class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600">
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="high">High</option>
+            </select>
+        </div>
 
-        <button type="submit" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+        <button type="submit"
+                class="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg transition duration-300">
             Calculate
         </button>
     </form>
 
-    <div id="result" class="mt-6 hidden">
-        <h2 class="text-xl font-semibold mb-2">Result:</h2>
-        <p><strong>Maintenance Calories:</strong> <span id="maintenance"></span></p>
-        <p><strong>Weight Loss Calories:</strong> <span id="loss"></span></p>
-        <p><strong>Weight Gain Calories:</strong> <span id="gain"></span></p>
+    <div id="result" class="mt-6 text-center hidden">
+        <h2 class="text-xl font-semibold text-green-400 mb-2">Your Daily Calorie Goal:</h2>
+        <p id="calories" class="text-3xl font-bold"></p>
     </div>
 </div>
 
 <script>
-    const form = document.getElementById('calorieForm');
-    const resultDiv = document.getElementById('result');
-    const maintenanceSpan = document.getElementById('maintenance');
-    const lossSpan = document.getElementById('loss');
-    const gainSpan = document.getElementById('gain');
+    document.getElementById('calorieForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        data.weightInKg = parseFloat(data.weightInKg);
+        data.heightInFeet = parseFloat(data.heightInFeet);
+        data.age = parseInt(data.age);
 
-      const requestData = {
-        weightInKg: parseFloat(document.getElementById('weight').value),
-        heightInFeet: parseFloat(document.getElementById('height').value),
-        age: parseInt(document.getElementById('age').value),
-        gender: document.getElementById('gender').value,
-        activityLevel: document.getElementById('activityLevel').value,
-        goal: document.getElementById('goal').value,
-        intensity: document.getElementById('intensity').value
-      };
+        const response = await fetch('/calculate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
 
-      const response = await fetch('/calculate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestData)
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        maintenanceSpan.textContent = data.maintenanceCalories + ' kcal';
-        lossSpan.textContent = data.weightLossCalories + ' kcal';
-        gainSpan.textContent = data.weightGainCalories + ' kcal';
-        resultDiv.classList.remove('hidden');
-      } else {
-        alert('Failed to calculate. Please try again.');
-      }
+        const result = await response.json();
+        document.getElementById('calories').textContent = `${result.calories} kcal/day`;
+        document.getElementById('result').classList.remove('hidden');
     });
 </script>
 </body>
